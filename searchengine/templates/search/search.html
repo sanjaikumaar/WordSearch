@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">    
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>    
+</head>
+<style type="text/css">
+	fieldset
+	{
+	    min-width: 0;
+	    padding: 0;
+	    margin: 300px 0 0 0;
+	    border: 0;
+	    position: relative;
+	}
+	body{
+		background-color: #aa80ff;
+	}
+	label {
+	    color: black !important;
+	    text-align: center;
+	}
+	
+</style>
+<body>	
+	<form>
+		<center>	
+		<div class="col-lg-4">
+			<fieldset class="form-group">
+				<label class="col-md-12 col-form-label-lg" >SearchEngine</label>
+				<input type="text" name='search' class="form-control" id="search" placeholder="Search">				
+			</fieldset>
+		</div>
+		</center>
+	</form>
+</body>
+</html>
+<script type="text/javascript">
+$(function () {
+    var minlength = 2;
+
+    $("#search").keyup(function () {
+        var that = this,
+        value = $(this).val();        
+        if (value.length >= minlength ) {            
+            searchRequest = $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: {
+                	'action': 'get_data',
+					'search': value,
+					'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                url: "/search/suggestions/",                
+                success: function(data){                	                    
+                    var suggestions= data.result                                                            
+                    $( "#search" ).autocomplete({
+				      source: suggestions
+				    });
+                }
+            });
+        }
+    });
+});
+
+</script>	
