@@ -10,7 +10,7 @@ def index(request):
 
 def search(request):
 
-	letters = request.POST.get('search')
+	letters = request.GET.get('search')
 	path = os.getcwd()
 	df = pandas.read_csv(path+"\\word_search.tsv",header=None, names=['word','rank'], sep='\t')
 	df1 = df[df['word'].str.contains(str(letters),na=False)]
