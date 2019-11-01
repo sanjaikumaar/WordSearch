@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>	
@@ -16,60 +17,52 @@
 <style type="text/css">
 	fieldset
 	{
-	    min-width: 0;
-	    padding: 0;
-	    margin: 300px 0 0 0;
-	    border: 0;
-	    position: relative;
+    min-width: 0;
+    padding: 0;
+    margin: 300px 0 0 0;
+    border: 0;
+    position: relative;
 	}
 	body{
 		background-color: #aa80ff;
 	}
 	label {
-	    color: black !important;
-	    text-align: center;
+    color: black !important;
 	}
-	
+
 </style>
-<body>	
-	<form>
-		<center>	
-		<div class="col-lg-4">
-			<fieldset class="form-group">
-				<label class="col-md-12 col-form-label-lg" >SearchEngine</label>
-				<input type="text" name='search' class="form-control" id="search" placeholder="Search">				
-			</fieldset>
-		</div>
-		</center>
-	</form>
+<body>
+<form>
+	<center>
+	<div class="col-lg-4">
+		<fieldset class="form-group">
+			<label class="col-md-12 col-form-label-lg" align='center'>SearchEngine</label>
+			<input type="text" name='search' class="form-control" id="search" placeholder="Search">				
+		</fieldset>
+	</div>
+	</center>
+</form>
 </body>
 </html>
 <script type="text/javascript">
-$(function () {
-    var minlength = 2;
-
-    $("#search").keyup(function () {
-        var that = this,
-        value = $(this).val();        
-        if (value.length >= minlength ) {            
-            searchRequest = $.ajax({
-                type: "POST",
-                dataType: "json",
-                data: {
-                	'action': 'get_data',
-					'search': value,
-					'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                url: "/search/suggestions/",                
-                success: function(data){                	                    
-                    var suggestions= data.result                                                            
-                    $( "#search" ).autocomplete({
-				      source: suggestions
-				    });
-                }
-            });
-        }
+	
+$(function() {   
+    $( "#search" ).autocomplete({
+      source: function(request, response) {
+        $.ajax({
+          url: "/search/suggestions/",
+          dataType: "json",
+          data: {
+            'search': request.term
+          },
+          success: function(data) {          	
+            response(data.result);
+          }
+        });
+      },      
     });
-});
+  });
 
 </script>	
+
+ 
