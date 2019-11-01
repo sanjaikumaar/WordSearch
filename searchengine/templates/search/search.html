@@ -19,16 +19,19 @@
 	{
     min-width: 0;
     padding: 0;
-    margin: 300px 0 0 0;
+    margin: 120px 0 0 0;
     border: 0;
     position: relative;
 	}
 	body{
-		background-color: #aa80ff;
+		background-color: white;
 	}
 	label {
     color: black !important;
 	}
+	.form-control {
+      border-color: #000;
+    }
 
 </style>
 <body>
@@ -36,7 +39,8 @@
 	<center>
 	<div class="col-lg-4">
 		<fieldset class="form-group">
-			<label class="col-md-12 col-form-label-lg" align='center'>SearchEngine</label>
+			<img src="{% static 'logo.png' %}" class="rounded">
+			<label class="col-md-12 col-form-label-lg" align='center'></label>
 			<input type="text" name='search' class="form-control" id="search" placeholder="Search">				
 		</fieldset>
 	</div>
